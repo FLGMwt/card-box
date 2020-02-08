@@ -9,9 +9,11 @@ type Card = CardCreateModel & {
   id: string;
 };
 
+const initialState: Card[] = [];
+
 const cardsSlice = createSlice({
   name: 'cards',
-  initialState: [] as Card[],
+  initialState,
   reducers: {
     addCard: (state, action: PayloadAction<CardCreateModel>) => {
       return [

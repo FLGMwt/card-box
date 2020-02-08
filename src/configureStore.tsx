@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import {
   configureStore,
   combineReducers,
@@ -13,8 +14,11 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
+import {
+  useSelector as useReduxSelector,
+  TypedUseSelectorHook,
+} from 'react-redux';
 import cardsReducer from './slices/cardsSlice';
-import { Platform } from 'react-native';
 
 const getStorage = Platform.select({
   default: () => require('@react-native-community/async-storage').default,
@@ -24,6 +28,8 @@ const getStorage = Platform.select({
 const rootReducer = combineReducers({
   cards: cardsReducer,
 });
+export type RootState = ReturnType<typeof rootReducer>;
+export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector;
 
 const persistConfig = {
   key: 'root',
