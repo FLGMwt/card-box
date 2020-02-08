@@ -1,13 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { uuid } from 'uuidv4';
 
-type CardCreateModel = {
+export type Card = {
   name: string;
-};
-
-type Card = CardCreateModel & {
   id: string;
 };
+
+type CardCreateModel = Omit<Card, 'id'>;
 
 const initialState: Card[] = [];
 
