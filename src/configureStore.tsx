@@ -19,6 +19,7 @@ import {
   TypedUseSelectorHook,
 } from 'react-redux';
 import cardsReducer from './slices/cardsSlice';
+import propertiesReducer from './slices/propertiesSlice';
 
 const getStorage = Platform.select({
   default: () => require('@react-native-community/async-storage').default,
@@ -27,6 +28,7 @@ const getStorage = Platform.select({
 
 const rootReducer = combineReducers({
   cards: cardsReducer,
+  properties: propertiesReducer,
 });
 export type RootState = ReturnType<typeof rootReducer>;
 export const useSelector: TypedUseSelectorHook<RootState> = useReduxSelector;

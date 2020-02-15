@@ -15,7 +15,9 @@ const MakeCardsButton = () => {
     cardCountRef.current = cardCount;
   }, [cardCount]);
   const onAddCard = () => {
-    dispatch(addCard({ name: `This is Card #${cardCountRef.current + 1}` }));
+    dispatch(
+      addCard({ name: `This is Card #${cardCountRef.current + 1}`, values: {} })
+    );
   };
   return <Button title="Add a card" onPress={onAddCard} />;
 };
@@ -36,7 +38,7 @@ const CardList = () => {
   };
 
   if (!cards.length) {
-    return <Text>No Cards Found : (</Text>;
+    return <Text>No Cards Found</Text>;
   }
 
   return (

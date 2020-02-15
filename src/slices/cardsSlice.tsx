@@ -1,9 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { uuid } from 'uuidv4';
+import { replaceInPlace } from './utils';
 
 export type Card = {
-  name: string;
   id: string;
+  name: string;
+  values: {
+    [propertyId: string]: string;
+  };
 };
 
 type CardCreateModel = Omit<Card, 'id'>;
@@ -23,11 +27,14 @@ const cardsSlice = createSlice({
         },
       ];
     },
+    editCard: (state, action: PayloadAction<Card>) => {
+      return replaceInPlace(state, action.payload);
+    },
     deleteCard: (state, action: PayloadAction<string>) => {
       return state.filter(card => card.id !== action.payload);
     },
   },
 });
-export const { addCard, deleteCard } = cardsSlice.actions;
+export const { addCard, deleteCard, editCard } = cardsSlice.actions;
 
 export default cardsSlice.reducer;
