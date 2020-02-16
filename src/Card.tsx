@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card as CardType, editCard } from './slices/cardsSlice';
 import { View } from 'react-native';
-import { Input } from '@ui-kitten/components';
+import { Input, Text } from '@ui-kitten/components';
 import { useSelector } from './configureStore';
 import { getProperties } from './selectors/properties';
 import { Property } from './slices/propertiesSlice';
@@ -52,13 +52,31 @@ const ValuesEditor: React.FC<{ card: CardType }> = ({ card }) => {
   return (
     <>
       {properties.map(property => (
-        <ValueEditor
-          key={`${property.id}${card.id}`}
-          property={property}
-          card={card}
-        />
+        <ValueEditor key={property.id} property={property} card={card} />
       ))}
     </>
+  );
+};
+
+//huehue
+type ValueProps = {
+  propertyId: string;
+  value: string;
+};
+
+const useProperty = (id: string) => {
+  const properties = useSelector(getProperties);
+  return properties.find(property => property.id === id);
+};
+
+const Value: React.FC<ValueProps> = ({ propertyId, value }) => {
+  const property = useProperty(propertyId);
+  return (
+    <Text
+      style={{ position: 'absolute', top: property.top, left: property.left }}
+    >
+      {value}
+    </Text>
   );
 };
 
@@ -84,7 +102,11 @@ const Card: React.FC<Props> = ({ card }) => {
           borderColor: 'black',
           borderWidth: 2,
         }}
-      ></View>
+      >
+        {Object.entries(card.values).map(([key, value]) => (
+          <Value key={key} propertyId={key} value={value} />
+        ))}
+      </View>
     </View>
   );
 };

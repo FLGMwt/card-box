@@ -7,7 +7,7 @@ import {
   editProperty,
   deleteProperty,
 } from './slices/propertiesSlice';
-import { View, TextInput } from 'react-native';
+import { View } from 'react-native';
 import { Input, Button } from '@ui-kitten/components';
 
 type Props = {
@@ -16,11 +16,13 @@ type Props = {
 
 const PropertyEditor: React.FC<Props> = ({ property }) => {
   const dispatch = useDispatch();
-  const makeOnEdit = (fieldName: keyof Property) => (value: string) => {
+  const makeOnEdit = (fieldName: keyof Property, isNumeric = false) => (
+    value: string
+  ) => {
     dispatch(
       editProperty({
         ...property,
-        [fieldName]: value,
+        [fieldName]: isNumeric ? parseInt(value) || 0 : value,
       })
     );
   };
@@ -37,13 +39,13 @@ const PropertyEditor: React.FC<Props> = ({ property }) => {
       <Input
         label="Distance from Top"
         keyboardType="numeric"
-        onChangeText={makeOnEdit('top')}
+        onChangeText={makeOnEdit('top', true)}
         value={property.top.toString()}
       />
       <Input
         label="Distance from left"
         keyboardType="numeric"
-        onChangeText={makeOnEdit('left')}
+        onChangeText={makeOnEdit('left', true)}
         value={property.left.toString()}
       />
       <Button status="danger" onPress={onDeleteProperty}>
