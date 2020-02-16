@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import configureStore from './configureStore';
@@ -15,10 +15,8 @@ const AppRoot = () => (
     <PersistGate persistor={persistor}>
       <ApplicationProvider mapping={mapping} theme={lightTheme}>
         <View style={{ flexDirection: 'row', flex: 1 }}>
-          <View style={styles.container}>
-            <PropertiesEditor />
-          </View>
-          <View style={[styles.container, { flex: 2 }]}>
+          <PropertiesEditor />
+          <View style={[styles.container, { flex: 3 }]}>
             <CardListProto />
           </View>
         </View>

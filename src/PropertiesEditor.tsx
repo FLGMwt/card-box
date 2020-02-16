@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProperties } from './selectors/properties';
 import {
@@ -7,7 +7,7 @@ import {
   editProperty,
   deleteProperty,
 } from './slices/propertiesSlice';
-import { View } from 'react-native';
+import { View, ScrollView, Dimensions } from 'react-native';
 import { Input, Button } from '@ui-kitten/components';
 
 type Props = {
@@ -56,6 +56,10 @@ const PropertyEditor: React.FC<Props> = ({ property }) => {
 };
 
 const PropertiesEditor = () => {
+  const [height, setHeight] = useState(Dimensions.get('window').height);
+  Dimensions.addEventListener('change', ({ window }) =>
+    setHeight(window.height)
+  );
   const properties = useSelector(getProperties);
   const dispatch = useDispatch();
 
@@ -63,7 +67,7 @@ const PropertiesEditor = () => {
     dispatch(addProperty({ name: '', top: 0, left: 0 }));
   };
   return (
-    <>
+    <ScrollView style={{ height }}>
       {properties.map((property, i) => (
         <View
           key={property.id}
@@ -78,7 +82,7 @@ const PropertiesEditor = () => {
         </View>
       ))}
       <Button onPress={onAddProperty}>Add Property</Button>
-    </>
+    </ScrollView>
   );
 };
 
